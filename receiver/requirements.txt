@@ -1,0 +1,8 @@
+connexion
+datetime
+logging
+pykafka
+requests
+swagger-ui-bundle
+uuid
+yaml
