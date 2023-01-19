@@ -6,40 +6,34 @@ from pykafka import KafkaClient
 import requests
 import uuid
 import yaml
+import json
 
 
-def process_events(event):
+def process_events(event, endpoint):
     # TODO remove timestamp
     trace_id = str(uuid.uuid4())
     event["trace_id"] = trace_id
 
-    # TODO remove logic for writing to file and insterting into list
+    headers = {"Content-Type": "application/json"}
 
-    # TODO add call to requests.post using Storage url and endpoint parameter
-    # TODO save the response from requests.post in a variable named 'res'
+    res = requests.post(
+        f"http://localhost:8090/{endpoint}", headers=headers, data=json.dumps(event)
+    )
 
-    # TODO remove return NoContent, 201
-    # TODO return res.text, res.status_code
-    pass
+    return res.text, res.status_code
 
 
 # Endpoints
 def buy(body):
-    # TODO add second argument to process_events(), the name of the endpoint, e.g. 'buy'
-    process_events(body)
+    pe = process_events(body, "buy")
 
-    # TODO remove return NoContent, 201
-    # TODO return the result of process_events()
-    return NoContent, 201
+    return pe
 
 
 def sell(body):
-    # TODO add second argument to process_events(), the name of the endpoint, e.g. 'buy'
-    process_events(body)
+    se = process_events(body, "sell")
 
-    # TODO remove return NoContent, 201
-    # TODO return the result of process_events()
-    return NoContent, 201
+    return se
 
 
 app = connexion.FlaskApp(__name__, specification_dir="")
