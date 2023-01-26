@@ -23,7 +23,7 @@ with open("app_conf.yml", "r") as f:
 
 # TODO: create connection string, replacing placeholders below with variables defined in log_conf.yml
 DB_ENGINE = create_engine(
-    f"mysql+pymysql://user:{app_config['user']}{app_config['hostname']}:{app_config['port']}/{app_config['db']}"
+    f'mysql+pymysql://{app_config["user"]}:{app_config["password"]}@{app_config["hostname"]}:{app_config["port"]}/{app_config["db"]}'
 )
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
@@ -39,7 +39,6 @@ def buy(body):
         body["item_price"],
         body["buy_qty"],
         body["trace_id"],
-        body["date_created"],
     )
     # TODO add, commit, and close the session
     session.add(buy_event)
@@ -69,7 +68,6 @@ def sell(body):
         body["item_price"],
         body["sell_qty"],
         body["trace_id"],
-        body["date_created"],
     )
     # TODO add, commit, and close the session
     session.add(sell_event)

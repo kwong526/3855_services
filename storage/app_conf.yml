@@ -1,6 +1,6 @@
 version: 1
-user: 'root'
-password: ''
-hostname: 'localhost'
+user: 'clinton'
+password: 'test1234'
+hostname: '127.0.0.1'
 port: 3306
 db: 'events'
