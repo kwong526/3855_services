@@ -1,20 +1,2 @@
-RECEIVER :: DEBUG – Received event {endpoint} with trace id {trace_id}
-RECEIVER :: DEBUG – Received response with trace id {trace_id}, status code {res.status_code}
-RECEIVER :: DEBUG – Received event {endpoint} with trace id {trace_id}
-RECEIVER :: DEBUG – Received response with trace id {trace_id}, status code {res.status_code}
-RECEIVER :: DEBUG – Received event {endpoint} with trace id {trace_id}
-RECEIVER :: DEBUG – Received response with trace id {trace_id}, status code {res.status_code}
-RECEIVER :: DEBUG – Received event {endpoint} with trace id {trace_id}
-RECEIVER :: DEBUG – Received response with trace id {trace_id}, status code {res.status_code}
-RECEIVER :: DEBUG – Received event {endpoint} with trace id {trace_id}
-RECEIVER :: DEBUG – Received response with trace id {trace_id}, status code {res.status_code}
-RECEIVER :: DEBUG – Received event {endpoint} with trace id {trace_id}
-RECEIVER :: DEBUG – Received response with trace id {trace_id}, status code {res.status_code}
-RECEIVER :: DEBUG – Received event {endpoint} with trace id {trace_id}
-RECEIVER :: DEBUG – Received response with trace id {trace_id}, status code {res.status_code}
-RECEIVER :: DEBUG – Received event {endpoint} with trace id {trace_id}
-RECEIVER :: DEBUG – Received response with trace id {trace_id}, status code {res.status_code}
-RECEIVER :: DEBUG – Received event {endpoint} with trace id {trace_id}
-RECEIVER :: DEBUG – Received response with trace id {trace_id}, status code {res.status_code}
-RECEIVER :: DEBUG – Received event {endpoint} with trace id {trace_id}
-RECEIVER :: DEBUG – Received response with trace id {trace_id}, status code {res.status_code}
+RECEIVER :: DEBUG – Received event buy with trace id 4e00c29c-e882-4839-8b12-79de1ebb2a95
+RECEIVER :: DEBUG – Received response with trace id 4e00c29c-e882-4839-8b12-79de1ebb2a95, status code 201
