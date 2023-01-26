@@ -5,7 +5,6 @@ info:
   title: ACIT 3855 API
   contact:
     email: kwong526@my.bcit.ca
-tags:
   - name: devices
     description: Operations available to connected devices
 paths:
@@ -71,7 +70,6 @@ components:
         trace_id:
           type: string
           format: uuid
-          example: d290f1ee-6c54-4b01-90e6-d701748f0851
     Sell:
       type: object
       required:
@@ -96,4 +94,3 @@ components:
         trace_id:
           type: string
           format: uuid
-          example: d290f1ee-6c54-4b01-90e6-d701748f0851
