@@ -30,3 +30,5 @@ RECEIVER :: DEBUG – Received event buy with trace id b5b3c8bc-eab1-4046-83f5-e
 RECEIVER :: DEBUG – Received response with trace id b5b3c8bc-eab1-4046-83f5-eb2c0f2a0496, status code 201
 RECEIVER :: DEBUG – Received event buy with trace id 0e34d6e5-b3de-4d12-b388-aee4111c71b3
 RECEIVER :: DEBUG – Received response with trace id 0e34d6e5-b3de-4d12-b388-aee4111c71b3, status code 201
+RECEIVER :: DEBUG – Received event buy with trace id 52db8d17-080f-4ed0-96d4-ecb6a8f5f4f1
+RECEIVER :: DEBUG – Received response with trace id 52db8d17-080f-4ed0-96d4-ecb6a8f5f4f1, status code 201

@@ -61,6 +61,7 @@ def get_buys(timestamp):
     data = []
 
     # TODO query for all events that occured since the timestamp
+    # print(timestamp)
     rows = session.query(Buy).filter(Buy.date_created >= timestamp)
 
     for row in rows:
@@ -68,7 +69,7 @@ def get_buys(timestamp):
 
     session.close()
 
-    print(data)
+    # print(data)
 
     logger.debug(f"Query for buy items after {timestamp} returns {len(data)} results.")
 

@@ -572,3 +572,27 @@ STORAGE :: DEBUG – Query for buy items after 2023-02-01T12:35:26Z returns 11 r
 STORAGE :: DEBUG – Query for buy items after 2023-02-02T12:35:26Z returns 0 results.
 STORAGE :: DEBUG – Query for buy items after 2023-02-02T12:50:26Z returns 0 results.
 STORAGE :: DEBUG – Query for buy items after 2023-02-02T12:11:26Z returns 0 results.
+STORAGE :: DEBUG – Query for buy items after 2023-02-02T12:40:47Z returns 0 results.
+STORAGE :: DEBUG – Query for sell items after 2023-02-02T12:40:47Z returns 0 results.
+STORAGE :: DEBUG – Query for buy items after 2023-02-02T12:53:08Z returns 0 results.
+STORAGE :: DEBUG – Query for sell items after 2023-02-02T12:53:08Z returns 0 results.
+STORAGE :: DEBUG – Query for buy items after 2023-02-02T12:53:13Z returns 0 results.
+STORAGE :: DEBUG – Query for sell items after 2023-02-02T12:53:13Z returns 0 results.
+STORAGE :: DEBUG – Query for buy items after 2023-02-02T12:53:18Z returns 0 results.
+STORAGE :: DEBUG – Query for buy items after 2023-02-02T12:53:18Z returns 0 results.
+STORAGE :: DEBUG – Query for sell items after 2023-02-02T12:53:18Z returns 0 results.
+STORAGE :: DEBUG – Query for buy items after 2023-02-02T12:53:18Z returns 0 results.
+STORAGE :: DEBUG – Query for sell items after 2023-02-02T12:53:18Z returns 0 results.
+STORAGE :: DEBUG – Query for buy items after 2023-02-02T12:53:18Z returns 0 results.
+STORAGE :: DEBUG – Stored buy event with trace id 52db8d17-080f-4ed0-96d4-ecb6a8f5f4f1
+STORAGE :: DEBUG – Query for sell items after 2023-02-02T12:53:18Z returns 0 results.
+STORAGE :: DEBUG – Query for buy items after 2023-02-02T12:53:18Z returns 0 results.
+STORAGE :: DEBUG – Query for sell items after 2023-02-02T12:53:18Z returns 0 results.
+STORAGE :: DEBUG – Query for buy items after 2023-02-02T12:53:18Z returns 0 results.
+STORAGE :: DEBUG – Query for sell items after 2023-02-02T12:53:18Z returns 0 results.
+STORAGE :: DEBUG – Query for buy items after 2023-02-02T12:53:18Z returns 0 results.
+STORAGE :: DEBUG – Query for sell items after 2023-02-02T12:53:18Z returns 0 results.
+STORAGE :: DEBUG – Query for buy items after 2023-02-02T12:53:18Z returns 0 results.
+STORAGE :: DEBUG – Query for sell items after 2023-02-02T12:53:18Z returns 0 results.
+STORAGE :: DEBUG – Query for sell items after 2023-02-02T12:11:26Z returns 0 results.
+STORAGE :: DEBUG – Query for buy items after 2023-02-02T12:11:26Z returns 0 results.

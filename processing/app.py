@@ -95,7 +95,9 @@ def populate_stats():
             max_sell_price = sell["item_price"]
 
     # TODO write a new Stats record to stats.sqlite using timestamp and the statistics you just generated
-    new_record = Stats(max_buy_price, len(buys), max_sell_price, len(sells), timestamp)
+    new_record = Stats(
+        max_buy_price, len(buys), max_sell_price, len(sells), last_updated
+    )
 
     # TODO add, commit and optionally close the session
     session.add(new_record)
