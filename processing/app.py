@@ -64,8 +64,9 @@ def populate_stats():
     # TODO convert result to a dict, read the last_updated property and store it in a variable named last_updated
 
     result = result.to_dict()
-    print(result)
+    print(last_updated)
     last_updated = result["last_updated"]
+    print(last_updated)
 
     # print(last_updated)
 
@@ -77,11 +78,11 @@ def populate_stats():
     # print(buys)
 
     max_buy_price = result["max_buy_price"]
-    # print(max_buy_price)
+    print(max_buy_price)
     for buy in buys:
         if buy["item_price"] > max_buy_price:
             max_buy_price = buy["item_price"]
-    # print(max_buy_price)
+    print(max_buy_price)
     # TODO call the /sell GET endpoint of storage, passing last_updated
     # TODO convert result to a json object, loop through and calculate max_sell_price of all recent records
     sells = requests.get(f"http://localhost:8090/sell?timestamp={last_updated}")
