@@ -52,10 +52,18 @@ def buy(body):
 
 # end
 
+### TIMESTAMP FORMAT = YYYY-MM-DDTHH:MM:SSZ
 
-def get_buys():
-    # placeholder for future labs
-    pass
+
+def get_buys(timestamp):
+    session = DB_SESSION()
+
+    # TODO query for all events that occured since the timestamp
+    rows = session.query(Buy).filter(Buy.date_created >= timestamp)
+
+    print(rows)
+
+    return NoContent, 201
 
 
 def sell(body):
@@ -81,9 +89,16 @@ def sell(body):
 # end
 
 
-def get_sells():
-    # placeholder for future labs
-    pass
+def get_sells(timestamp):
+    # TODO create a session
+    session = DB_SESSION()
+
+    # TODO query for all events that occured since the timestamp
+    rows = session.query(Sell).filter(Sell.date_created >= timestamp)
+
+    print(rows)
+
+    return NoContent, 201
 
 
 app = connexion.FlaskApp(__name__, specification_dir="")
