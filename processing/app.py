@@ -19,19 +19,22 @@ DB_ENGINE = create_engine("sqlite:///stats.sqlite")
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
+
 def get_latest_stats():
     # TODO create a session
+    session = DB_SESSION()
 
     # TODO query the session for the first Stats record, ordered by Stats.last_updated
-
+    result = session.query(Stats).order_by(Stats.last_updated.desc()).first()
     # TODO if result is not empty, convert it to a dict and return it (with status code 200)
-    
+    result = result.to_dict()
     # TODO if result is empty, return NoContent, 201
-    return NoContent, 201
+    return result, 200
+
 
 def populate_stats():
     #   IMPORTANT: all stats calculated by populate_stats must be CUMULATIVE
-    # 
+    #
     #   The number of buy and sell events received must be added to the previous total held in stats.sqlite,
     #   and the max_buy_price and max_sell_price must be compared to the values held in stats.sqlite
     #
@@ -46,48 +49,78 @@ def populate_stats():
     #   { 99.99, 14, 10.99, 15, 2023-01-01T00:00:05Z }
     #
 
-
     # TODO create a timestamp (e.g. datetime.datetime.now().strftime('...'))
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
     # TODO create a last_updated variable that is initially assigned the timestamp, i.e. last_updated = timestamp
 
+    last_updated = timestamp
     # TODO log beginning of processing
-
+    logger.debug(f"Processing initiated at {last_updated}.")
     # TODO create a session
-
+    session = DB_SESSION()
     # TODO read latest record from stats.sqlite (ordered by last_updated)
     # e.g. result = session.query(Stats)...  etc.
+    result = session.query(Stats).order_by(Stats.last_updated.desc()).first()
+    # TODO convert result to a dict, read the last_updated property and store it in a variable named last_updated
 
-    # TODO if result is not empty, convert result to a dict, read the last_updated property and store it in a variable named last_updated
-    # if result does not exist, create a dict with default keys and values, and store it in the result variable
+    result = result.to_dict()
+    print(result)
+    last_updated = result["last_updated"]
+
+    # print(last_updated)
 
     # TODO call the /buy GET endpoint of storage, passing last_updated
     # TODO convert result to a json object, loop through and calculate max_buy_price of all recent records
-    
+    buys = requests.get(f"http://localhost:8090/buy?timestamp={last_updated}")
+    # print(buys)
+    buys = buys.json()
+    # print(buys)
+
+    max_buy_price = result["max_buy_price"]
+    # print(max_buy_price)
+    for buy in buys:
+        if buy["item_price"] > max_buy_price:
+            max_buy_price = buy["item_price"]
+    # print(max_buy_price)
     # TODO call the /sell GET endpoint of storage, passing last_updated
     # TODO convert result to a json object, loop through and calculate max_sell_price of all recent records
+    sells = requests.get(f"http://localhost:8090/sell?timestamp={last_updated}")
+    sells = sells.json()
+
+    max_sell_price = result["max_sell_price"]
+
+    for sell in sells:
+        if sell["item_price"] > max_sell_price:
+            max_sell_price = sell["item_price"]
 
     # TODO write a new Stats record to stats.sqlite using timestamp and the statistics you just generated
-    
+    new_record = Stats(max_buy_price, len(buys), max_sell_price, len(sells), timestamp)
+
     # TODO add, commit and optionally close the session
+    session.add(new_record)
+    session.commit()
+    # session.close()
 
     return NoContent, 201
 
+
 def init_scheduler():
     sched = BackgroundScheduler(daemon=True)
-    sched.add_job(populate_stats, 'interval', seconds=app_config['period'])
+    sched.add_job(populate_stats, "interval", seconds=app_config["period"])
     sched.start()
 
-app = connexion.FlaskApp(__name__, specification_dir='')
+
+app = connexion.FlaskApp(__name__, specification_dir="")
 app.add_api("openapi.yml", strict_validation=True, validate_responses=True)
 
-with open('app_conf.yml', 'r') as f:
+with open("app_conf.yml", "r") as f:
     app_config = yaml.safe_load(f.read())
 
-with open('log_conf.yml', 'r') as f:
+with open("log_conf.yml", "r") as f:
     log_config = yaml.safe_load(f.read())
     logging.config.dictConfig(log_config)
 
-logger = logging.getLogger('basic')
+logger = logging.getLogger("basic")
 
 if __name__ == "__main__":
     init_scheduler()
