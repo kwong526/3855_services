@@ -142,8 +142,6 @@ def get_buys(timestamp):
 
     session.close()
 
-    # print(data)
-
     logger.debug(f"Query for buy items after {timestamp} returns {len(data)} results.")
 
     return data, 200
