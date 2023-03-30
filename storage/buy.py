@@ -28,7 +28,7 @@ class Buy(Base):
     def to_dict(self):
         # TODO create a dict, and assign object properties to your dict
         dict = {}
-        dict['id'] = self.id
+        dict['id'] = self.id  # primary key for the mysql database
         dict['buy_id'] = self.buy_id
         dict['item_name'] = self.item_name
         dict['item_price'] = self.item_price

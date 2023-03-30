@@ -4,7 +4,7 @@ info:
   version: "1.0.0"
   title: ACIT 3855 API
   contact:
-    email: kwong526@my.bcit.ca
+    email: <your email address>
 tags:
   - name: devices
     description: Operations available to connected devices

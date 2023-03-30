@@ -28,9 +28,17 @@ from threading import Thread
 with open("app_conf.yml", "r") as f:
     app_config = yaml.safe_load(f.read())
 
-DB_ENGINE = create_engine(
-    f"mysql+pymysql://{app_config['user']}:{app_config['password']}@{app_config['hostname']}:{app_config['port']}/{app_config['db']}"
-)
+with open("storage-app_conf.yml", "r") as f:
+    storage_app_config = yaml.safe_load(f.read())
+
+# TODO: create connection string, replacing placeholders below with variables defined in log_conf.yml
+user = app_config["user"]
+password = app_config["password"]
+hostname = app_config["hostname"]
+port = app_config["port"]
+db = app_config["db"]
+DB_ENGINE = create_engine(f"mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}")
+
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
@@ -38,12 +46,16 @@ DB_SESSION = sessionmaker(bind=DB_ENGINE)
 def process_messages():
     # TODO: create KafkaClient object assigning hostname and port from app_config to named parameter "hosts"
     # and store it in a variable named 'client'
-    server = f'{app_config["events"]["hostname"]}:{app_config["events"]["port"]}'
-    client = KafkaClient(hosts=server)
+    hosts = (
+        storage_app_config["events"]["hostname"]
+        + ":"
+        + str(storage_app_config["events"]["port"])
+    )
+    client = KafkaClient(hosts=hosts)
 
     # TODO: index into the client.topics array using topic from app_config
     # and store it in a variable named topic
-    topic = client.topics[str.encode(app_config["events"]["topic"])]
+    topic = client.topics[storage_app_config["events"]["topic"]]
 
     # Notes:
     #
@@ -66,134 +78,116 @@ def process_messages():
         # TODO: convert the json string (msg_str) to an object, store in a variable named msg
         msg = json.loads(msg_str)
         # TODO: extract the payload property from the msg object, store in a variable named payload
-        payload = msg["payload"]
+        payload = msg.get("payload")
+        # the default layload for Kafka message is a string
+
         # TODO: extract the type property from the msg object, store in a variable named msg_type
-        msg_type = msg["type"]
+        msg_type = msg.get("type")
         # TODO: create a database session
-        session = DB_SESSION()
         # TODO: log "CONSUMER::storing buy event"
-        logger.debug("CONSUMER::storing buy event")
+        logger.debug(f"CONSUMER::storing {msg_type} event")
         # TODO: log the msg object
-        logger.debug(f"Message: {msg}")
+        logger.debug(f"Stored {msg_type} event with trace id {msg}")
+
         # TODO: if msg_type equals 'buy', create a Buy object and pass the properties in payload to the constructor
         # if msg_type equals sell, create a Sell object and pass the properties in payload to the constructor
-        # TODO: session.add the object you created in the previous step
         if msg_type == "buy":
-            buy_obj = Buy(
-                payload["buy_id"],
-                payload["item_name"],
-                payload["item_price"],
-                payload["buy_qty"],
-                payload["trace_id"],
-            )
-            session.add(buy_obj)
+            buy(payload)
 
         elif msg_type == "sell":
-            sell_obj = Sell(
-                payload["sell_id"],
-                payload["item_name"],
-                payload["item_price"],
-                payload["sell_qty"],
-                payload["trace_id"],
-            )
-            session.add(sell_obj)
+            sell(payload)
+
+        # TODO: session.add the object you created in the previous step
 
         # TODO: commit the session
-        session.commit()
-
     # TODO: call messages.commit_offsets() to store the new read position
     messages.commit_offsets()
 
 
 # Endpoints
 def buy(body):
-    # TODO: copy over code from previous version of storage
+    # TODO create a session
     session = DB_SESSION()
 
-    buy_event = Buy(
+    # TODO additionally pass trace_id (along with properties from Lab 2) into Buy constructor
+    buyobject = Buy(
         body["buy_id"],
         body["item_name"],
         body["item_price"],
         body["buy_qty"],
-        body["trace_id"],
+        body["trace_id"]
+        # no need to pass date_created, it will be generated everytime Buy class is called in the Class function.
     )
-
-    session.add(buy_event)
+    # TODO add, commit, and close the session
+    session.add(buyobject)
     session.commit()
-    session.close()
-
-    logger.debug(f'Stored buy event with trace id {body["trace_id"]}')
-
+    # session.close()
+    # TODO: call logger.debug and pass in message "Stored buy event with trace id <trace_id>"
+    logger.debug(f"Stored buy event with trace id {buyobject.trace_id}")
+    # TODO return NoContent, 201
     return NoContent, 201
 
 
+# end
+
+
 def get_buys(timestamp):
-    # TODO: copy over code from previous version of storage
-    session = DB_SESSION()
-
     data = []
-
-    # TODO query for all events that occured since the timestamp
-    # print(timestamp)
+    session = DB_SESSION()
     rows = session.query(Buy).filter(Buy.date_created >= timestamp)
+    # rows = session.query(f"SELECT * FROM table WHERE UNIX_TIMESTAMP(data_created) >= {timestamp} ORDER BY data_created DESC LIMIT 10").all()
+    # query for all the events since this timestamp
+    # rows = session.query.(sell).filter(see.data_created >= timestamp)
 
+    # loop through rows, for each row call .to_dic(), then append the dict to data
     for row in rows:
         data.append(row.to_dict())
-
-    session.close()
-
-    logger.debug(f"Query for buy items after {timestamp} returns {len(data)} results.")
+    print(data)
 
     return data, 200
 
 
 def sell(body):
-    # TODO: copy over code from previous version of storage
+    # TODO create a session
     session = DB_SESSION()
-
-    sell_event = Sell(
+    # TODO additionally pass trace_id (along with properties from Lab 2) into Sell constructor
+    sellobject = Sell(
         body["sell_id"],
         body["item_name"],
         body["item_price"],
         body["sell_qty"],
         body["trace_id"],
     )
-
-    session.add(sell_event)
+    # TODO add, commit, and close the session
+    session.add(sellobject)
     session.commit()
-    session.close()
+    # session.close()
 
-    logger.debug(f'Stored sell event with trace id {body["trace_id"]}')
+    # TODO: call logger.debug and pass in message "Stored sell event with trace id <trace_id>"
+    logger.debug(f"Stored sell event with trace id {sellobject.trace_id}")
+
     return NoContent, 201
 
 
+# end
+
+
 def get_sells(timestamp):
-    # TODO: copy over code from previous version of storage
-    session = DB_SESSION()
-
     data = []
-
-    # TODO query for all events that occured since the timestamp
+    session = DB_SESSION()
     rows = session.query(Sell).filter(Sell.date_created >= timestamp)
-
-    # TODO loop through rows, for each row, call .to_dict() then append the dict to data
     for row in rows:
         data.append(row.to_dict())
 
-    session.close()
-
-    logger.debug(f"Query for sell items after {timestamp} returns {len(data)} results.")
-
+    print(data)
     return data, 200
 
 
 app = connexion.FlaskApp(__name__, specification_dir="")
 app.add_api(
-    "openapi.yml",
-    base_path="/receiver",
-    strict_validation=True,
-    validate_responses=True,
+    "openapi.yml", base_path="/storage", strict_validation=True, validate_responses=True
 )
+
 with open("log_conf.yml", "r") as f:
     log_config = yaml.safe_load(f.read())
     logging.config.dictConfig(log_config)
