@@ -14,6 +14,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from base import Base
 from stats import Stats
+from flask_cors import CORS  # CORS is a function
+
 
 DB_ENGINE = create_engine("sqlite:///stats.sqlite")
 Base.metadata.bind = DB_ENGINE
@@ -23,13 +25,14 @@ DB_SESSION = sessionmaker(bind=DB_ENGINE)
 def get_latest_stats():
     # TODO create a session
     session = DB_SESSION()
-
     # TODO query the session for the first Stats record, ordered by Stats.last_updated
+
     result = session.query(Stats).order_by(Stats.last_updated.desc()).first()
     # TODO if result is not empty, convert it to a dict and return it (with status code 200)
-    result = result.to_dict()
+    data = result.to_dict()
+    return data
+
     # TODO if result is empty, return NoContent, 201
-    return result, 200
 
 
 def populate_stats():
@@ -49,60 +52,64 @@ def populate_stats():
     #   { 99.99, 14, 10.99, 15, 2023-01-01T00:00:05Z }
     #
 
+    # num_buys
+    # max_buy_price
+    # num_sells
+    # max_sell_price
+    # last_updated
+
     # TODO create a timestamp (e.g. datetime.datetime.now().strftime('...'))
     timestamp = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
     # TODO create a last_updated variable that is initially assigned the timestamp, i.e. last_updated = timestamp
-
     last_updated = timestamp
+    print(last_updated)
+
     # TODO log beginning of processing
-    logger.debug(f"Processing initiated at {last_updated}.")
+
     # TODO create a session
     session = DB_SESSION()
+
     # TODO read latest record from stats.sqlite (ordered by last_updated)
     # e.g. result = session.query(Stats)...  etc.
-    result = session.query(Stats).order_by(Stats.last_updated.desc()).first()
+
+    data = get_latest_stats()
+
     # TODO convert result to a dict, read the last_updated property and store it in a variable named last_updated
 
-    result = result.to_dict()
-    # print(last_updated)
-    last_updated = result["last_updated"]
-    # print(last_updated)
-
-    # print(last_updated)
+    last_updated = data["last_updated"]
 
     # TODO call the /buy GET endpoint of storage, passing last_updated
     # TODO convert result to a json object, loop through and calculate max_buy_price of all recent records
-    buys = requests.get(f"http://localhost:8090/buy?timestamp={last_updated}")
-    # print(buys)
-    buys = buys.json()
-    # print(buys)
+    events = requests.get(f"http://74.235.55.16/storage/buy?timestamp={last_updated}")
 
-    max_buy_price = result["max_buy_price"]
-    # print(max_buy_price)
-    for buy in buys:
-        if buy["item_price"] > max_buy_price:
-            max_buy_price = buy["item_price"]
-    # print(max_buy_price)
+    event = events.json()
+    for e in event:
+        data["num_buys"] += e["buy_qty"]
+        if e["item_price"] > data["max_buy_price"]:
+            data["max_buy_price"] = e["item_price"]
+
+    events = requests.get(f"http://74.235.55.16/storage/sell?timestamp={last_updated}")
+
+    event = events.json()
+    for e in event:
+        data["num_sells"] += e["sell_qty"]
+        if e["item_price"] > data["max_sell_price"]:
+            data["max_sell_price"] = e["item_price"]
+
+    data["last_updated"] = timestamp
+
+    stats = Stats(**data)
+
+    session.add(stats)
+    session.commit()
+    session.close()
+
     # TODO call the /sell GET endpoint of storage, passing last_updated
     # TODO convert result to a json object, loop through and calculate max_sell_price of all recent records
-    sells = requests.get(f"http://localhost:8090/sell?timestamp={last_updated}")
-    sells = sells.json()
-
-    max_sell_price = result["max_sell_price"]
-
-    for sell in sells:
-        if sell["item_price"] > max_sell_price:
-            max_sell_price = sell["item_price"]
 
     # TODO write a new Stats record to stats.sqlite using timestamp and the statistics you just generated
-    new_record = Stats(
-        max_buy_price, len(buys), max_sell_price, len(sells), last_updated
-    )
 
     # TODO add, commit and optionally close the session
-    session.add(new_record)
-    session.commit()
-    # session.close()
 
     return NoContent, 201
 
@@ -116,10 +123,11 @@ def init_scheduler():
 app = connexion.FlaskApp(__name__, specification_dir="")
 app.add_api(
     "openapi.yml",
-    base_path="/receiver",
+    base_path="/processing",
     strict_validation=True,
     validate_responses=True,
 )
+CORS(app.app)
 
 with open("app_conf.yml", "r") as f:
     app_config = yaml.safe_load(f.read())

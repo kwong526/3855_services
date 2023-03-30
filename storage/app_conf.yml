@@ -1,10 +1,6 @@
 version: 1
-user: 'clinton'
-password: 'test1234'
+user: 'root'
+password: 'password'
 hostname: "172.30.0.11"
 port: 3306
 db: 'events'
-events:
-  hostname: 172.30.0.6
-  port: 9092
-  topic: events
