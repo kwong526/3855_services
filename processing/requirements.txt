@@ -1,4 +1,4 @@
 connexion
 swagger-ui-bundle
-datetime
-pykafka
+SQLAlchemy
+apscheduler

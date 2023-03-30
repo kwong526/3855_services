@@ -1,0 +1,41 @@
+RECEIVER :: DEBUG – Received event buy with trace id 4e00c29c-e882-4839-8b12-79de1ebb2a95
+RECEIVER :: DEBUG – Received response with trace id 4e00c29c-e882-4839-8b12-79de1ebb2a95, status code 201
+RECEIVER :: DEBUG – Received event buy with trace id 05164f05-859f-4811-ad8e-cec7d31ef91f
+RECEIVER :: DEBUG – Received response with trace id 05164f05-859f-4811-ad8e-cec7d31ef91f, status code 201
+RECEIVER :: DEBUG – Received event buy with trace id 472e8b08-0045-4504-9ec9-cd1254b44282
+RECEIVER :: DEBUG – Received response with trace id 472e8b08-0045-4504-9ec9-cd1254b44282, status code 201
+RECEIVER :: DEBUG – Received event buy with trace id 2cf273d8-8b52-4454-9233-f0cc79358a8a
+RECEIVER :: DEBUG – Received response with trace id 2cf273d8-8b52-4454-9233-f0cc79358a8a, status code 201
+RECEIVER :: DEBUG – Received event buy with trace id e3849fe6-87e0-40db-b53c-aab3bc8bd873
+RECEIVER :: DEBUG – Received response with trace id e3849fe6-87e0-40db-b53c-aab3bc8bd873, status code 201
+RECEIVER :: DEBUG – Received event buy with trace id 82fe861b-c61d-43fb-9bd4-bdf9262d0c30
+RECEIVER :: DEBUG – Received response with trace id 82fe861b-c61d-43fb-9bd4-bdf9262d0c30, status code 201
+RECEIVER :: DEBUG – Received event buy with trace id 34fab15e-be36-4a88-969f-b9d46f46a07c
+RECEIVER :: DEBUG – Received response with trace id 34fab15e-be36-4a88-969f-b9d46f46a07c, status code 201
+RECEIVER :: DEBUG – Received event buy with trace id cd051cce-b035-4a41-9142-032608dd02ed
+RECEIVER :: DEBUG – Received response with trace id cd051cce-b035-4a41-9142-032608dd02ed, status code 201
+RECEIVER :: DEBUG – Received event buy with trace id 4800d7a3-dd04-491e-b575-143f6f629206
+RECEIVER :: DEBUG – Received response with trace id 4800d7a3-dd04-491e-b575-143f6f629206, status code 201
+RECEIVER :: DEBUG – Received event buy with trace id 6cce6892-8cd5-483a-9b2d-bab39ebc93a6
+RECEIVER :: DEBUG – Received response with trace id 6cce6892-8cd5-483a-9b2d-bab39ebc93a6, status code 201
+RECEIVER :: DEBUG – Received event buy with trace id a5503846-5451-448d-a462-c6ee26a975b2
+RECEIVER :: DEBUG – Received response with trace id a5503846-5451-448d-a462-c6ee26a975b2, status code 201
+RECEIVER :: DEBUG – Received event buy with trace id 4acdf564-4b60-4e1d-a213-5f9be1a59e74
+RECEIVER :: DEBUG – Received response with trace id 4acdf564-4b60-4e1d-a213-5f9be1a59e74, status code 201
+RECEIVER :: DEBUG – Received event buy with trace id a6d5200e-e0e2-41ee-946d-a3ed57f8af57
+RECEIVER :: DEBUG – Received response with trace id a6d5200e-e0e2-41ee-946d-a3ed57f8af57, status code 201
+RECEIVER :: DEBUG – Received event buy with trace id f8c49178-e1ff-48b2-8924-2406a914fc28
+RECEIVER :: DEBUG – Received response with trace id f8c49178-e1ff-48b2-8924-2406a914fc28, status code 201
+RECEIVER :: DEBUG – Received event buy with trace id b5b3c8bc-eab1-4046-83f5-eb2c0f2a0496
+RECEIVER :: DEBUG – Received response with trace id b5b3c8bc-eab1-4046-83f5-eb2c0f2a0496, status code 201
+RECEIVER :: DEBUG – Received event buy with trace id 0e34d6e5-b3de-4d12-b388-aee4111c71b3
+RECEIVER :: DEBUG – Received response with trace id 0e34d6e5-b3de-4d12-b388-aee4111c71b3, status code 201
+RECEIVER :: DEBUG – Received event buy with trace id 52db8d17-080f-4ed0-96d4-ecb6a8f5f4f1
+RECEIVER :: DEBUG – Received response with trace id 52db8d17-080f-4ed0-96d4-ecb6a8f5f4f1, status code 201
+RECEIVER :: DEBUG – Received buy event with trace id e9f607b5-f34c-462e-82dd-e597ee7c55bf
+RECEIVER :: DEBUG – Received buy event with trace id f189573a-673e-4792-9f0b-8e0883724f6a
+RECEIVER :: DEBUG – PRODUCER::producing buy event
+RECEIVER :: DEBUG – {"type": "buy", "datetime": "2023-02-23T09:36:47Z", "payload": {"item_name": "Item 4", "item_price": 9.99, "buy_id": "d290f1ee-6c54-4b01-90e6-d701748f0851", "buy_qty": 5, "trace_id": "f189573a-673e-4792-9f0b-8e0883724f6a"}}
+RECEIVER :: DEBUG – Received buy event with trace id a65d6f14-5856-45a2-bd27-4669e056604b
+RECEIVER :: DEBUG – PRODUCER::producing buy event
+RECEIVER :: DEBUG – {"type": "buy", "datetime": "2023-02-23T09:37:35Z", "payload": {"item_name": "Item 4", "item_price": 9.99, "buy_id": "d290f1ee-6c54-4b01-90e6-d701748f0851", "buy_qty": 5, "trace_id": "a65d6f14-5856-45a2-bd27-4669e056604b"}}
