@@ -1,4 +1,0 @@
-events:
-  hostname: 172.30.0.6
-  port: 9092
-  topic: events

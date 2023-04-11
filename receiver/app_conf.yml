@@ -3,3 +3,7 @@ buy:
   url: http://172.30.0.3:8090/buy
 sell:
   url: http://172.30.0.3:8090/sell
+events:
+  hostname: 172.30.0.6
+  port: 9092
+  topic: events
