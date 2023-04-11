@@ -62,6 +62,17 @@ services:
       appnetwork:
         ipv4_address: 172.30.0.4
 
+  health:
+    build:
+      context: ./health
+    image: health-image
+    container_name: health-container
+    ports:
+      - 8110:8110
+    networks:
+      appnetwork:
+        ipv4_address: 172.30.0.7
+
   mysql:
     build:
       context: ./mysql
