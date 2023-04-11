@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 
 const Stats = () => {
-  const [event, setEvent] = useState([])
+  const [event, setEvent] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8100/processing/stats')
-      .then(res => res.json())
-      .then(res => {
-        setEvent(res)
-      })
-  }, [])
+    fetch("http://74.235.55.16/processing/stats")
+      .then((res) => res.json())
+      .then((res) => {
+        setEvent(res);
+      });
+  }, []);
 
   return (
     <div className="stats">
@@ -19,7 +19,7 @@ const Stats = () => {
         {/* output stats here */}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Stats
+export default Stats;
