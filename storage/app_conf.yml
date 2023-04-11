@@ -4,3 +4,7 @@ password: 'password'
 hostname: "172.30.0.11"
 port: 3306
 db: 'events'
+events:
+  hostname: kafka
+  port: 9092
+  topic: events
